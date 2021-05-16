@@ -1,0 +1,14 @@
+#!/bin/sh
+
+DOCKER_BUILDKIT="1"
+BASE_IMAGE="debian:10.7-slim"
+
+rm -rf blockbook
+git clone https://github.com/trezor/blockbook.git
+(cd blockbook && git checkout "tags/${DOCKER_TAG}" -b "release/${DOCKER_TAG}")
+sed -i "s/BASE_IMAGE = .*/BASE_IMAGE = ${BASE_IMAGE}/" blockbook/Makefile
+(cd blockbook && make .bin-image)
+
+docker build --build-arg BLOCKBOOK_VERSION="${DOCKER_TAG}" \
+             --build-arg BASE_IMAGE="${BASE_IMAGE}" \
+             --tag ${IMAGE_NAME} .
