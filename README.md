@@ -13,13 +13,13 @@ All available environment variables are:
 | BITCOIN_PORT_RPC     | 8030          |     ✔    | [RPC][bitcoind-rpc] port of the `bitcoind` service |
 | BITCOIN_PORT_ZMQ     | 38330         |     ✔    | [ZMQ][bitcoind-zmq] port of the `bitcoind` service |
 
-Expose port `9130` to make the Bitcoin Explorer and REST API available outside the Docker network
-
+Expose port `9130` to make the Bitcoin Explorer and REST API available outside the Docker network.  
+Persist the directory `/blockbook/data` to preserve the state.
 
 ### Docker CLI example
 
 ```sh
-docker run --rm --interactive --tty --publish 9130:9130 --env BITCOIN_HOST=bitcoin --env BITCOIN_PORT_RPC=8030 --env BITCOIN_PORT_ZMQ=38330 xsystems/blockbook:v0.3.4
+docker run --rm --interactive --tty --publish 9130:9130 --volume blockbook-data:/blockbook/data --env BITCOIN_HOST=bitcoin --env BITCOIN_PORT_RPC=8030 --env BITCOIN_PORT_ZMQ=38330 xsystems/blockbook:v0.3.4
 ```
 
 
